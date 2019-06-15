@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ScientificProgramming.Collections
 {
-    public class Qeue<T> : SCollection<T>
+    public class Queue<T> : SCollection<T>
     {
         /// <summary>
         /// Inserts the item in the Queue's first position
@@ -12,7 +12,11 @@ namespace ScientificProgramming.Collections
         /// <param name="item">Item to be inserted in the queue</param>
         public void Enqueue(T item)
         {
-            Insert(item, 0);
+            //Special Case when the array is empty
+            if (Quantity == 0)
+                Add(item);
+            else
+                Insert(item, 0);
         }
 
         /// <summary>

@@ -1,12 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ScientificProgramming.Collections;
 
-namespace UnitTestProject1
+namespace Test
 {
     [TestClass]
     public class QueueTest
     {
-
         private Queue<int> GenerateTestQueue()
         {
             var queue = new Queue<int>();
