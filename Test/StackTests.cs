@@ -47,7 +47,7 @@ namespace Test
         }
 
         [TestMethod]
-        public void QueueSize()
+        public void StackSize()
         {
             // Arrange 
             var stack = GenerateTestStack();

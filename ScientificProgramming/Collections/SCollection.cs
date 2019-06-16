@@ -7,7 +7,7 @@ namespace ScientificProgramming.Collections
     /// <summary>
     /// Generic Collection Class
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type of the collection</typeparam>
     public class SCollection<T> : ISCollection<T>
     {
 
@@ -181,7 +181,7 @@ namespace ScientificProgramming.Collections
         /// Removes the fist ocurrence of the item specified and returns it
         /// </summary>
         /// <param name="item">Item to be removed</param>
-        /// <returns></returns>
+        /// <returns>Removed Item</returns>
         protected T Remove(T item)
         {
             var index = Find(item);
