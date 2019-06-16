@@ -1,6 +1,6 @@
 # Scientific Programming
 
-This repository contains some C# code developed for the Scientific Programming class (PEL2016) at [**Centro Universitário FEI**](https://portal.fei.edu.br/).
+This repository contains some C# code developed for the Scientific Programming class (PEL216) at [**Centro Universitário FEI**](https://portal.fei.edu.br/).
 
 ## Pre-requisites
 To run this code, you will need:
