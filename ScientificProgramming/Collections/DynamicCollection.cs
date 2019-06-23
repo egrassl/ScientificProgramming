@@ -99,7 +99,7 @@ namespace ScientificProgramming.Collections
                 Add(inputItems[i]);
         }
 
-        public void Add(T value)
+        protected void Add(T value)
         {
             // Adds it to the first item variable if its the first item
             if (IsEmpty)
@@ -117,7 +117,7 @@ namespace ScientificProgramming.Collections
             Quantity++;
         }
 
-        public void Insert(T value, int position)
+        protected void Insert(T value, int position)
         {
             // Change the firstItem if it is the first position
             if (position == 0)
@@ -150,7 +150,7 @@ namespace ScientificProgramming.Collections
             Quantity++;
         }
 
-        public T Remove(int position)
+        protected T Remove(int position)
         {
             CheckIndex(position);
 
@@ -201,7 +201,7 @@ namespace ScientificProgramming.Collections
                 throw new IndexOutOfRangeException("The index called was not in the collection range");
         }
 
-        private DynamicItem<T> GetItem(int index)
+        public DynamicItem<T> GetItem(int index)
         {
             // Throws Exception if collection is empty or index is out of range
             CheckIndex(index);
