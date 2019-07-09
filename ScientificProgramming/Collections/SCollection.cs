@@ -196,5 +196,17 @@ namespace ScientificProgramming.Collections
 
             return returnArray;
         }
+
+        public T this[int index]
+        {
+            get
+            {
+                return items[index];
+            }
+            set
+            {
+                items[index] = value;
+            }
+        }
     }
 }

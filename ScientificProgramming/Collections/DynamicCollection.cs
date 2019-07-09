@@ -126,7 +126,13 @@ namespace ScientificProgramming.Collections
 
                 // Updates the first item previous link if needed
                 if (FirstItem != null)
+                {
                     FirstItem.Previous = newItem;
+                }
+                else
+                {
+                    LastItem = newItem;
+                }
 
                 FirstItem = newItem;
             }
