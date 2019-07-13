@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Text;
 using ScientificProgramming.Collections;
+using ScientificProgramming.SearchAlgorithms.Abstract;
 
 namespace ScientificProgramming.SearchAlgorithms
 {
-    public class PiecesState
+    public class PiecesState : ISearchState
     {
         public SList<SList<int>> State { get; private set; }
 
@@ -108,9 +109,9 @@ namespace ScientificProgramming.SearchAlgorithms
             State = state;
         }
 
-        public SList<PiecesState> NextStates()
+        public SList<ISearchState> NextStates()
         {
-            var nextStates = new SList<PiecesState>();
+            var nextStates = new SList<ISearchState>();
 
             var emptyPosition = EmptyPosition;
             var emptyValueRow = emptyPosition.Item1;

@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using ScientificProgramming.Collections;
 using System.Text;
 
 namespace ScientificProgramming.SearchAlgorithms.Abstract
 {
-    public interface ISearchState<T>
+    public interface ISearchState
     {
-        T State { get; }
-
         float Evaluation { get; }
 
-        T[] NextStates();
+        SList<ISearchState> NextStates();
     }
 }
