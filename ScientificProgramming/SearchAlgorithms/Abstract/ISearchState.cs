@@ -9,5 +9,7 @@ namespace ScientificProgramming.SearchAlgorithms.Abstract
         float Evaluation { get; }
 
         SList<ISearchState> NextStates();
+
+        string Print();
     }
 }

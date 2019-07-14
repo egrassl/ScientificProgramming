@@ -170,7 +170,10 @@ namespace ScientificProgramming.Collections
             // Shift items to override the removed one
             for (int i = index; i < Quantity; i++)
             {
-                items[i] = items[i + 1];
+                if (i == IndexOfLast)
+                    items[i] = default(T);
+                else
+                    items[i] = items[i + 1];
             }
             
             Quantity--;

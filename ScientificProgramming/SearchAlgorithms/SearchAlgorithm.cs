@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using ScientificProgramming.Collections;
+﻿using ScientificProgramming.Collections;
 using ScientificProgramming.SearchAlgorithms.Abstract;
 
 namespace ScientificProgramming.SearchAlgorithms
@@ -13,49 +11,6 @@ namespace ScientificProgramming.SearchAlgorithms
         AStar
     }
 
-    public class SearchCollection<T>
-    {
-        public SearchType SearchType { get; private set; }
-
-        private Queue<T> Queue { get; set; }
-
-        private Stack<T> Stack { get; set; }
-
-        public SearchCollection(SearchType searchType) : base()
-        {
-            SearchType = searchType;
-
-            if (searchType == SearchType.BFS)
-                Queue = new Queue<T>();
-            else
-                Queue = new Queue<T>();
-        }
-
-        public void Add(T item)
-        {
-            if (SearchType == SearchType.BFS)
-            {
-                Queue.Enqueue(item);
-            }
-            else
-            {
-                Stack.Push(item);
-            }
-        }
-
-        public T NextItem()
-        {
-            if (SearchType == SearchType.BFS)
-            {
-                return Queue.Dequeue();
-            }
-            else
-            {
-                return Stack.Pop();
-            }
-        }
-    }
-
     public class SearchAlgorithm
     {
         public ISearchState DesiredState { get; private set; }
@@ -66,20 +21,35 @@ namespace ScientificProgramming.SearchAlgorithms
 
         public SearchCollection<ISearchState> SearchCollection { get; private set; }
 
-        public SearchAlgorithm(ISearchState initialState, SearchType searchType)
+        public SList<ISearchState> SearchedStates { get; private set; }
+
+        public SearchAlgorithm(ISearchState initialState, ISearchState desiredState, SearchType searchType)
         {
-            SearchCollection = new SearchCollection<ISearchState>(searchType);
             InitialState = CurrentState = initialState;
+            DesiredState = desiredState;
+            SearchCollection = new SearchCollection<ISearchState>(searchType);
+            SearchedStates = new SList<ISearchState>();
         }
 
-        public bool Iterate()
+        public bool Resolve()
         {
-            if (Equals(CurrentState, DesiredState))
-                return true;
+            SearchCollection.Add(CurrentState);
 
-            var nextStates = CurrentState.NextStates();
+            while (!Equals(CurrentState, DesiredState) && !SearchCollection.IsEmpty)
+            {
+                CurrentState = SearchCollection.NextItem();
+                var nextStates = CurrentState.NextStates();
+                SearchedStates.Add(CurrentState);
 
+                for (int i = 0; i < nextStates.Quantity; i++)
+                {
+                    var nextState = nextStates[i];
+                    if (!SearchedStates.Exists(nextState) && !SearchCollection.Exists(nextState))
+                        SearchCollection.Add(nextState);
+                }
+            }
 
+            return Equals(CurrentState, DesiredState);
         }
     }
 }
