@@ -34,18 +34,21 @@ namespace ScientificProgramming.SearchAlgorithms
         /// <summary>
         /// Collection with states that will be searched.
         /// </summary>
-        public SearchCollection<ISearchState> SearchCollection { get; private set; }
+        public SearchCollection SearchCollection { get; private set; }
 
         /// <summary>
         /// States that have been searched.
         /// </summary>
         public SList<ISearchState> SearchedStates { get; private set; }
 
+        public SearchType SearchType { get; private set; }
+
         public SearchAlgorithm(ISearchState initialState, ISearchState desiredState, SearchType searchType)
         {
             // Intializes search structures given search type
-            SearchCollection = new SearchCollection<ISearchState>(searchType);
+            SearchCollection = new SearchCollection(searchType);
             SearchedStates = new SList<ISearchState>();
+            SearchType = searchType;
 
             // Initialize search states definitions
             InitialState = initialState;
@@ -82,7 +85,6 @@ namespace ScientificProgramming.SearchAlgorithms
                         SearchCollection.Add(nextState);
                 }
             }
-
             // Returns true if the loop exited because the desired state was reached or false otherwise
             return Equals(CurrentState, DesiredState);
         }

@@ -99,7 +99,7 @@ namespace Test
             Assert.IsFalse(success);
         }
 
-
+        
         [TestMethod]
         public void ResultTestBFS()
         {
@@ -119,13 +119,45 @@ namespace Test
         [TestMethod]
         public void ResultTestDFS()
         {
+            // Arrange
             var state = GetState1();
             var result = GetDesiredState();
-
             var problemSolver = new SearchAlgorithm(state, result, SearchType.DFS);
 
+            // Act
             var success = problemSolver.Resolve();
 
+            // Assert
+            Assert.IsTrue(success);
+        }
+
+        [TestMethod]
+        public void ResultAStar()
+        {
+            // Arrange
+            var state = GetState1();
+            var result = GetDesiredState();
+            var problemSolver = new SearchAlgorithm(state, result, SearchType.AStar);
+
+            // Act
+            var success = problemSolver.Resolve();
+
+            // Assert
+            Assert.IsTrue(success);
+        }
+
+        [TestMethod]
+        public void ResultHillClimb()
+        {
+            // Arrange
+            var state = GetState1();
+            var result = GetDesiredState();
+            var problemSolver = new SearchAlgorithm(state, result, SearchType.HillClimb);
+
+            // Act
+            var success = problemSolver.Resolve();
+
+            // Assert
             Assert.IsTrue(success);
         }
     }

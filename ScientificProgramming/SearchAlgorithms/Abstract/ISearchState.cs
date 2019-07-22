@@ -6,7 +6,7 @@ namespace ScientificProgramming.SearchAlgorithms.Abstract
 {
     public interface ISearchState
     {
-        float Evaluation { get; }
+        int Evaluation { get; }
 
         SList<ISearchState> NextStates();
 

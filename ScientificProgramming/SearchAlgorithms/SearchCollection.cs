@@ -1,12 +1,13 @@
 ﻿using ScientificProgramming.Collections;
+using System;
+using ScientificProgramming.SearchAlgorithms.Abstract;
 
 namespace ScientificProgramming.SearchAlgorithms
 {
     /// <summary>
     /// Represents a collection that reacts according to the given search type
     /// </summary>
-    /// <typeparam name="T">Type of collection</typeparam>
-    public class SearchCollection<T>
+    public class SearchCollection
     {
         /// <summary>
         /// Represents internals search logic of this collection
@@ -16,12 +17,17 @@ namespace ScientificProgramming.SearchAlgorithms
         /// <summary>
         /// Internal Qeue for breadth search type
         /// </summary>
-        private Queue<T> Queue { get; set; }
+        private Queue<ISearchState> Queue { get; set; }
 
         /// <summary>
         /// Internal Stack for depth search type
         /// </summary>
-        private Stack<T> Stack { get; set; }
+        private Stack<ISearchState> Stack { get; set; }
+
+        /// <summary>
+        /// Internal List for A* and HillClimbing searches
+        /// </summary>
+        private SList<ISearchState> List { get; set; }
 
         /// <summary>
         /// Returns true if collection is empty
@@ -32,8 +38,10 @@ namespace ScientificProgramming.SearchAlgorithms
             {
                 if (SearchType == SearchType.BFS)
                     return Queue.Quantity == 0;
-                else
+                else if (SearchType == SearchType.DFS)
                     return Stack.Quantity == 0;
+                else
+                    return List.Quantity == 0;
             }
         }
 
@@ -45,23 +53,40 @@ namespace ScientificProgramming.SearchAlgorithms
         public SearchCollection(SearchType searchType) : base()
         {
             SearchType = searchType;
-            Queue = new Queue<T>();
-            Stack = new Stack<T>();
+            Queue = new Queue<ISearchState>();
+            Stack = new Stack<ISearchState>();
+            List = new SList<ISearchState>();
         }
 
         /// <summary>
         /// Adds item according to search type logic
         /// </summary>
         /// <param name="item"></param>
-        public void Add(T item)
+        public void Add(ISearchState item)
         {
             if (SearchType == SearchType.BFS)
             {
                 Queue.Enqueue(item);
             }
-            else
+            else if (SearchType == SearchType.DFS)
             {
                 Stack.Push(item);
+            }
+            else if (SearchType == SearchType.AStar)
+            {
+                List.Add(item);
+            }
+            else
+            {
+                if (List.Quantity == 0)
+                {
+                    List.Add(item);
+                }
+                else if(item.Evaluation < List[0].Evaluation)
+                {
+                    List.Remove(0);
+                    List.Add(item);
+                }
             }
         }
 
@@ -69,15 +94,30 @@ namespace ScientificProgramming.SearchAlgorithms
         /// Returns the next item to be searched given the specified search type logic
         /// </summary>
         /// <returns></returns>
-        public T NextItem()
+        public ISearchState NextItem()
         {
             if (SearchType == SearchType.BFS)
             {
                 return Queue.Dequeue();
             }
-            else
+            else if (SearchType == SearchType.DFS)
             {
                 return Stack.Pop();
+            }
+            else
+            {
+                var minEvaluation = int.MaxValue;
+                int nextStateIndex = -1;
+
+                for (int i = 0; i < List.Quantity; i++)
+                {
+                    if (List[i].Evaluation < minEvaluation)
+                    {
+                        minEvaluation = List[i].Evaluation;
+                        nextStateIndex = i;
+                    }
+                }
+                return List.Remove(nextStateIndex);
             }
         }
 
@@ -86,15 +126,19 @@ namespace ScientificProgramming.SearchAlgorithms
         /// </summary>
         /// <param name="item">Item to be verified.</param>
         /// <returns>True if item exists and false if not</returns>
-        public bool Exists(T item)
+        public bool Exists(ISearchState item)
         {
             if (SearchType == SearchType.BFS)
             {
                 return Queue.Exists(item);
             }
-            else
+            else if (SearchType == SearchType.DFS)
             {
                 return Stack.Exists(item);
+            }
+            else
+            {
+                return List.Exists(item);
             }
         }
     }

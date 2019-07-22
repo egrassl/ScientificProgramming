@@ -18,7 +18,7 @@ namespace ScientificProgramming.SearchAlgorithms
         /// <summary>
         /// Throws an exception because the default pieces problem does not need an evaluation method
         /// </summary>
-        public float Evaluation { get { throw new NotImplementedException(); } }
+        public int Evaluation { get; private set; }
 
         /// <summary>
         /// True if the empty space can be moved up.
@@ -71,19 +71,8 @@ namespace ScientificProgramming.SearchAlgorithms
         {
             get
             {
-                int i;
-                int j;
-                // Iterates through all rows
-                for (i = 0; i < 3; i++)
-                {
-                    // If the value that represents an empty space (-1) can be found in that row, then return its position
-                    j = State[i].Find(-1);
-                    if (j != -1)
-                        return new Tuple<int, int>(i, j);
-                }
-
-                // Returns a tuple (-1, -1) indicating that the empty space could not be found.
-                return new Tuple<int, int>(-1, -1);
+                // Find the position of the empty space (-1)
+                return FindPosition(-1);
             }
         }
 
@@ -96,6 +85,23 @@ namespace ScientificProgramming.SearchAlgorithms
             {
                 return Print();
             }
+        }
+
+        private Tuple<int, int> FindPosition(int piece)
+        {
+            int i;
+            int j;
+            // Iterates through all rows
+            for (i = 0; i < 3; i++)
+            {
+                // If the value that represents the given piece can be found in that row, then return its position
+                j = State[i].Find(piece);
+                if (j != -1)
+                    return new Tuple<int, int>(i, j);
+            }
+
+            // Returns a tuple (-1, -1) indicating that the empty space could not be found.
+            return new Tuple<int, int>(-1, -1);
         }
 
         /// <summary>
@@ -146,6 +152,7 @@ namespace ScientificProgramming.SearchAlgorithms
                 throw new ArgumentException("The specified state should be an 3x3 matrix");
 
             State = CreateStateFromArray(state);
+            Evaluation = ManhatanDistance();
         }
 
         public PiecesState(SList<SList<int>> state)
@@ -159,6 +166,7 @@ namespace ScientificProgramming.SearchAlgorithms
                 throw new ArgumentException("The specified state should be an 3x3 matrix");
 
             State = state;
+            Evaluation = ManhatanDistance();
         }
 
         /// <summary>
@@ -256,6 +264,35 @@ namespace ScientificProgramming.SearchAlgorithms
             return true;
         }
 
+        public int ManhatanDistance()
+        {
+            // Arranges evaluation information
+            var pieces = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, -1 };
+            var expectedRows = new int[] { 0, 0, 0, 1, 1, 1, 2, 2, 2 };
+            var expectedColumns = new int[] { 0, 1, 2, 0, 1, 2, 0, 1, 2 };
+
+            var sum = 0;
+            
+            // Finds the manhattan distace for all pieces
+            for (int i = 0; i < pieces.Length; i++)
+            {
+                var piece = pieces[i];
+                var piecePosition = FindPosition(piece);
+                var pieceRow = piecePosition.Item1; 
+                var pieceColumn = piecePosition.Item2;
+
+                // Calculates difference between expected position and actual position of the piece
+                var rowDifference = Math.Abs(expectedRows[i] - pieceRow);
+                var columnDifference = Math.Abs(expectedColumns[i] - pieceColumn);
+
+                // Accumulates the difference
+                sum += rowDifference + columnDifference;
+            }
+
+            // Return manhatan distance to state
+            return sum;
+        }
+
         /// <summary>
         /// Transforns the state in a string representation.
         /// </summary>
@@ -263,7 +300,8 @@ namespace ScientificProgramming.SearchAlgorithms
         public string Print()
         {
             return string.Format("{0}, {1}, {2}\n{3}, {4}, {5}\n{6}, {7}, {8}\n",
-                State[0][0], State[0][1], State[0][2], State[1][0], State[1][1], State[1][2],
+                State[0][0], State[0][1], State[0][2],
+                State[1][0], State[1][1], State[1][2],
                 State[2][0], State[2][1], State[2][2]);
         }
     }
