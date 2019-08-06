@@ -82,6 +82,7 @@ namespace ScientificProgramming.SearchAlgorithms
                 {
                     List.Add(item);
                 }
+                // Substitutes item if evaluation is better
                 else if(item.Evaluation < List[0].Evaluation)
                 {
                     List.Remove(0);
@@ -106,6 +107,7 @@ namespace ScientificProgramming.SearchAlgorithms
             }
             else
             {
+                // returns the best evaluated item
                 var minEvaluation = int.MaxValue;
                 int nextStateIndex = -1;
 

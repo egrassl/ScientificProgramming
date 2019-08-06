@@ -22,3 +22,7 @@ I hope you enjoy and learn as much as I did :punch:!
 The algorithms/structures contained in this project are:
 - [x] Queue (FIFO)
 - [x] Stack (LIFO)
+- [x] Breadth First Search (BFS)
+- [x] Depth First Search (DFS)
+- [x] A*
+- [x] Hill Climb
